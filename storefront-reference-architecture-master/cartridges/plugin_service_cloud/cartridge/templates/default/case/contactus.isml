@@ -1,0 +1,54 @@
+<iscontent type="text/html" charset="UTF-8" compact="true"/>
+<isdecorate template="common/layout/page">
+
+<div class="container">
+    <isif condition="${!empty(pdict.ConfirmationMessage)}">
+        <div class="confirmation-message">
+            <p>${Resource.msg('contactus.messagesent','forms',null)}</p>
+            <p>${Resource.msg('contactus.messagerequires','forms',null)}</p>
+        </div>
+    <iselse/>
+
+        <h1 class="page-title">${Resource.msg('global.contactus','customerservice',null)}</h1>
+
+        <div class="dialog-required"> <span class="required-indicator">&#8226; ${Resource.msg('global.requiredfield','customerservice',null)}</span></div>
+
+        <isif condition="${pdict.form.error}">${pdict.form.error}</isif>
+
+        <form action="${URLUtils.https('Case-SaveCase')}" method="post" class="form-horizontal" id="CaseCreationForm">
+
+            <fieldset>
+
+                <isprint value="${pdict.formHelper.renderTextInput(pdict.form.firstname)}" encoding="off" />
+
+                <isprint value="${pdict.formHelper.renderTextInput(pdict.form.lastname)}" encoding="off" />
+
+                <isprint value="${pdict.formHelper.renderTextInput(pdict.form.email)}" encoding="off" />
+
+                <isprint value="${pdict.formHelper.renderTextInput(pdict.form.phone)}" encoding="off" />
+
+                <isprint value="${pdict.formHelper.renderTextInput(pdict.form.ordernumber)}" encoding="off" />
+
+                <isprint value="${pdict.formHelper.renderSelectInput(pdict.form.myquestion)}" encoding="off" />
+
+                <isscript>
+                    var attributes = {
+                        rows: 8,
+                        cols: 40
+                    };
+                </isscript>
+                <isprint value="${pdict.formHelper.renderTextarea(pdict.form.comment, attributes)}" encoding="off" />
+
+                <button id="sendBtn" type="submit" value="${Resource.msg('global.send','customerservice',null)}" 
+                        name="${pdict.form.send.htmlName}" class="btn btn-primary">
+                    ${Resource.msg('global.submit','customerservice',null)}
+                </button>
+                <input type="hidden" name="${pdict.csrf.tokenName}" value="${pdict.csrf.token}"/>
+
+            </fieldset>
+
+        </form>
+
+    </isif>
+</div>
+</isdecorate>

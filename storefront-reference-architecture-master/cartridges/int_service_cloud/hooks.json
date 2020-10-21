@@ -1,0 +1,56 @@
+{
+  "hooks": [
+    {
+      "name": "app.account.created",
+      "script": "~/cartridge/scripts/hooks/account"
+    },
+    {
+      "name": "app.account.updated",
+      "script": "~/cartridge/scripts/hooks/account"
+    },
+    {
+      "name": "app.order.created",
+      "script": "~/cartridge/scripts/hooks/customerOrder"
+    },
+    {
+      "name": "app.order.updated",
+      "script": "~/cartridge/scripts/hooks/customerOrder"
+    },    
+    {
+      "name": "app.case.created",
+      "script": "~/cartridge/scripts/hooks/case"
+    },   
+    {
+      "name": "app.case.updated",
+      "script": "~/cartridge/scripts/hooks/case"
+    },   
+    {
+      "name": "app.case.get",
+      "script": "~/cartridge/scripts/hooks/case"
+    },   
+    {
+      "name": "app.case.getAll",
+      "script": "~/cartridge/scripts/hooks/case"
+    },
+    {
+    	"name": "dw.ocapi.shop.order.beforePATCH",
+        "script": "~/cartridge/scripts/hooks/order_hook_scripts.js"
+    },
+    {
+        "name": "dw.ocapi.shop.order.modifyPATCHResponse",
+        "script": "~/cartridge/scripts/hooks/order_hook_scripts.js"
+    },
+    {
+        "name": "dw.ocapi.shop.order.modifyGETResponse",
+        "script": "~/cartridge/scripts/hooks/order_hook_scripts.js"
+    },   
+    {
+      "name": "app.order.getStatusFromOMS",
+      "script": "~/cartridge/scripts/hooks/account"
+    },
+    {
+      "name": "app.order.cancelOMSOrder",
+      "script": "~/cartridge/scripts/hooks/account"
+    }             
+  ]
+}

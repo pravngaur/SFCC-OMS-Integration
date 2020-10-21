@@ -1,0 +1,16 @@
+<div class="form-group
+    <isif condition="${pdict.field.mandatory === true}">required</isif>">
+    <label class="form-control-label" for="${pdict.field.htmlName}">
+        <isprint value="${pdict.field.label}" encoding="htmlcontent" />
+    </label>
+
+    <select class="form-control custom-select" id="${pdict.field.htmlName}"
+    <isprint value=${pdict.field.attributes} encoding="off"/>
+    >
+        <option label=" "></option>
+        <isloop items=${pdict.field.options} var="option">
+            <option id="${option.id}" value="${option.htmlValue}" ${option.value == pdict.field.value ? 'selected' : ''}>${option.label}</option>
+        </isloop>
+    </select>
+    <div class="invalid-feedback">${pdict.field.error || ''}</div>
+</div>

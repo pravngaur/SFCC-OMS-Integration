@@ -1,0 +1,31 @@
+<iscontent type="text/html" charset="UTF-8" compact="true"/>
+<isdecorate template="common/layout/page">
+<div class="container">
+
+    <isslot id="account-banner" description="Banner for My Account pages" context="global" />
+
+    <h1 class="page-title">${Resource.msg('caselist.yourcases','customerservice',null)}</h1>
+
+    <form action="${pdict.newCase}" method="GET">
+        <button type="submit" value="${Resource.msg('caselist.newcase','customerservice',null)}" 
+                name="new_case" class="btn btn-primary">
+            ${Resource.msg('caselist.newcase','customerservice',null)}
+        </button>
+    </form>
+
+    <table>
+        <tr>
+            <th>${Resource.msg('caselist.casenumber','customerservice',null)}</th>
+            <th>${Resource.msg('caselist.subject','customerservice',null)}</th>
+            <th>${Resource.msg('caselist.status','customerservice',null)}</th>
+        </tr>
+    <isloop iterator="${pdict.cases}" alias="Case">
+        <tr>
+            <td>${Case.CaseNumber}</td>
+            <td>${Case.Subject}</td>
+            <td>${Case.Status}</td>
+        </tr>
+    </isloop>
+    </table>
+</div>
+</isdecorate>

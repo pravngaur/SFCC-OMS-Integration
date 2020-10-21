@@ -1,0 +1,11 @@
+<div class="form-group
+    <isif condition="${pdict.field.mandatory === true}">required</isif>">
+    <label class="form-control-label" for="${pdict.field.htmlName}">
+        <isprint value="${pdict.field.label}" encoding="htmlcontent" />
+    </label>
+    <textarea class="form-control" id="${pdict.field.htmlName}"
+            <isprint value="${pdict.field.attributes}" encoding="off" />>
+        ${pdict.field.htmlValue}
+    </textarea>
+    <div class="invalid-feedback">${pdict.field.error || ''}</div>
+</div>

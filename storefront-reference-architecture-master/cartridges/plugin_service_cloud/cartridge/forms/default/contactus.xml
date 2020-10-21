@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<form xmlns="http://www.demandware.com/xml/form/2008-04-19">
+	
+	<field formid="firstname" label="forms.contactus.firstname.label" type="string" mandatory="true" binding="firstName" max-length="50"/>
+	<field formid="lastname" label="forms.contactus.lastname.label" type="string" mandatory="true" binding="lastName" max-length="50"/>
+	<field formid="email" label="forms.contactus.email.label" type="string" mandatory="true" regexp="^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$" parse-error="forms.contactus.email.parse-error" binding="email" max-length="50"/>	
+	<field formid="phone" label="forms.contactus.phone.label" type="string" mandatory="false" binding="phoneHome" max-length="50"/>		
+ 	<field formid="ordernumber" label="forms.contactus.ordernumber.label" type="string" mandatory="false" binding="orderNumber" missing-error="forms.ordertrack.orderNumber.missing-error"/>
+
+	<field formid="myquestion" label="forms.contactus.myquestion.label" type="string" mandatory="true" binding="passwordQuestion">
+		<options>
+			<option optionid="General Information" value="General Information" label="forms.contactus.generalinformation"/>
+			<option optionid="Order Status" value="Order Status" label="forms.contactus.orderstatus"/>
+			<option optionid="My Account" value="My Account" label="forms.contactus.myaccount"/>
+			<option optionid="Other" value="Other" label="forms.contactus.other"/>
+		</options>	
+	</field>
+	<field formid="comment" label="forms.contactus.comment" type="string" mandatory="true" binding="comment" max-length="50"/>
+
+	<action formid="send" valid-form="true"/>
+</form>
