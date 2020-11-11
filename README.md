@@ -4,7 +4,7 @@
 ## Purpose
 Purpose of this repo is to provide a design guidance & sample implementation to the Developers/Architects of the most common use cases. The idea is to provide the basic sample implementation which can be leveraged by the community to design & develop the other use cases. By using this repo, you do not need to start from the scratch -- use this as the guidance/starting point for your own implementations.
 
-*This work is my personal effort & is not eligible for Salesforce support. Any entity/myslef/organization is legally bound. Users of this repo own the full responsibility of their solutions.
+> *This work is my personal effort & is not eligible for Salesforce support. Any entity/myslef/organization is legally bound. Users of this repo own the full responsibility of their solutions.*
 
 
 ## Use cases supported
@@ -19,11 +19,11 @@ As opposed to the traditional approach of getting the order status/updates back 
 
 **Customer Resolution:** In OMS, customer resolution works on the email address -- orders with the same email address, gets associated with the same Person Account. This repo honors the OMS resolution strategy.
 
-*I believe that the Commerce is the engine for transactions, once the order is placed -- commerce is not required to know the order life cycle updates/details -- OMS is the right place to manage/persist those details. Commerce should just get this info from OMS on requirement basis.
+> *I believe that the Commerce is the engine for transactions, once the order is placed -- commerce is not required to know the order life cycle updates/details -- OMS is the right place to manage/persist those details. Commerce should just get this info from OMS on requirement basis.*
 
 - This implementation uses the custom REST APEX APIs & Connect APIs from core to get the order status & for cancellations & returns.
 
-(docs/architecture.jpeg)
+![Architecture](docs/architecture.jpeg)
 
 For this implementation to work, getting the OMS & commerce cloud connected is the prerequisite -- raise a support case for that.
 Once connected, this implementation uses a custom build REST APEX API to get the order status from OMS. And for cancellations & returns it also uses the Connect APIs along with REST APIs.
