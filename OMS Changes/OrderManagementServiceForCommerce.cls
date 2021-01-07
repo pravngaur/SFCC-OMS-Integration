@@ -44,12 +44,12 @@ global with sharing class OrderManagementServiceForCommerce {
      * TODO: This does not handle the REFUNDS & Cash memo creation after the cancellation -- you need to implement that in accordance to your requirements.
      * 
      **/
-    @HttpPost
+     @HttpPost
     global static Boolean cancelOrderSummary(){
         Map<String, Object> jsonMap = (Map<String, Object>)System.JSON.deserializeUntyped(RestContext.request.requestBody.toString());
         String orderSummaryID = jsonMap.get('orderSummaryID').toString();
         String productCode = jsonMap.get('productCode').toString();
-        Double quantity = double.valueOf(jsonMap.get('quantity'));
+        Integer quantity = integer.valueOf(jsonMap.get('quantity'));
 		//Querying OrderItemSummary to get the ID of the record with the matching OrderSummary & ProductCode 
         String contectQuery = SCCQueryUtilClass.getInstance()
                 .getQueryInstance()
@@ -62,18 +62,18 @@ global with sharing class OrderManagementServiceForCommerce {
         if(orderItemSummaryList != null &&  !orderItemSummaryList.isEmpty() ){
             String orderItemSummaryID = String.valueOf(orderItemSummaryList[0].Id);
             ConnectApi.ChangeInputRepresentation changes = createChangeInput(orderItemSummaryID, quantity);
-            ConnectApi.SubmitCancelOutputRepresentation returnValue = ConnectApi.OrderSummary.submitCancel(orderSummaryID, changes);
+			ConnectApi.SubmitCancelOutputRepresentation returnValue = ConnectApi.OrderSummary.submitCancel(orderSummaryID, changes);
         }
         return true;
     }
 	
-    public static ConnectApi.ChangeInputRepresentation createChangeInput(String itemSummaryID, Double quantity ) {
+    public static ConnectApi.ChangeInputRepresentation createChangeInput(String itemSummaryID, Integer quantity ) {
         ConnectApi.ChangeInputRepresentation changeInput = new ConnectApi.ChangeInputRepresentation();
         changeInput.changeItems = new List<ConnectApi.ChangeItemInputRepresentation>();
         ConnectApi.ChangeItemInputRepresentation changeItemObject = new ConnectApi.ChangeItemInputRepresentation();
-        changeItemObject.reason = 'Unknown';//You must change this to get this information in the request from Commerce.
+        changeItemObject.reason = 'Damaged';//You must change this to get this information in the request from Commerce.
         changeItemObject.quantity = quantity;
-        changeItemObject.shippingReductionFlag = false;//You must change this to get this information in the request from Commerce.
+        changeItemObject.shippingReductionFlag = true;//You must change this to get this information in the request from Commerce.
         changeItemObject.orderItemSummaryId = itemSummaryID;
         changeInput.changeItems.add(changeItemObject);
         return changeInput;

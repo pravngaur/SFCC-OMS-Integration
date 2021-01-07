@@ -22,22 +22,27 @@ function OMSOrder(omsOrder) {
     /**
      * @type {string} REST API url which can be used to get the full Order details from OMS.
      */
-    this.omsOrderSummaryURL = omsOrder.attributes.url;
+    this.omsFulfillmentOrderURL = omsOrder.attributes.url;
 
     /**
      * @type {string} Record ID of this order in OMS
      */
-    this.omsOrderSummaryID = omsOrder.Id;
+    this.omsOrderSummaryID = omsOrder.OrderSummaryId;
 
     /**
-     * @type {string} Commerce Cloud Order Number
+     * @type {string} Record ID of this order in OMS
      */
-    this.commerceOrderNumber = omsOrder.OrderNumber;
+    this.omsFulfillmentOrderID = omsOrder.Id;
+
+    /**
+     * @type {string} Record ID of this order in OMS
+     */
+    this.commerceOrderNumber = omsOrder.OrderSummary.OrderNumber;
 
     /**
      * @type {string} Status in OMS
      */
-    this.omsOrderSummaryStatus = omsOrder.Status;
+    this.omsFulfllmentOrderStatus = omsOrder.Status;
 }
 
 module.exports = OMSOrder;

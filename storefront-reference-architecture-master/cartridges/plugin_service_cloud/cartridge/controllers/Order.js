@@ -41,10 +41,10 @@ server.append('History', function (req, res, next) {
         while (ordersItr.hasNext()) {
             var object = {};
             var orderObj = ordersItr.next();
-            object.omsOrderSummaryURL = orderObj.omsOrderSummaryURL;
+            object.omsFulfillmentOrderURL = orderObj.omsOrderSummaryURL;
             object.omsOrderSummaryID = orderObj.omsOrderSummaryID;
-            object.commerceOrderNumber = orderObj.commerceOrderNumber;
-            object.omsOrderSummaryStatus = orderObj.omsOrderSummaryStatus;
+            object.omsFulfillmentOrderID = orderObj.omsFulfillmentOrderID;
+            object.omsFulfllmentOrderStatus = orderObj.omsFulfllmentOrderStatus;
             responseObject[orderObj.commerceOrderNumber] = object;
         }
     }
@@ -55,8 +55,6 @@ server.append('History', function (req, res, next) {
 /**
  * Adding the Cancel Route to facilitate Order cancellation in OMS using the Connect APIs.
  * TODO: 
- * - As of now, cancel link is available for all the Orders, irrespective of it's status in OMS. Ideally you should limit the cancellation
- * link to the statuses which allow customers to cancel a line item/order.
  * - For this demo implementation, for cancellations I am assuming the first item in the Order to be cancelled. But this needs to be handled in the
  * UI -- giving customers the opportunity to select the line item & the quantity for cancellations.
  * 
@@ -79,7 +77,10 @@ server.get('Cancel', server.middleware.https,
                 quantity = lineItem.quantityValue;
             }
         }
+
+        // TODO: place the 'cancelOrder' literal in site pref probably -- in a way that the feature can be controlled by a toggle -- if enabled then this literal will be picked form config..
         var requestObject = {
+            'omsOperation': 'cancelOrder',
             'quantity': quantity,
             'productCode': productCode,
             'orderSummaryID': orderSummaryID,
@@ -87,6 +88,49 @@ server.get('Cancel', server.middleware.https,
         };
         //calling the hook to cancel the order in OMS
         var cancelResponse = require('dw/system/HookMgr').callHook('app.order.cancelOMSOrder', 'cancelOMSOrder', requestObject);
+        
+        // TODO: for now, i am redirecting to Account landing, but you need to handle it explicitly based on the requirements..
+        var URLUtils = require('dw/web/URLUtils');
+        resp.redirect(URLUtils.url('Order-History'));
+        next();
+    });
+
+/**
+ * Adding the Return Route to facilitate Order returns in OMS using the Connect APIs.
+ * TODO: 
+ * - For this demo implementation, for returns I am assuming the first item in the Order to be cancelled. But this needs to be handled in the
+ * UI -- giving customers the opportunity to select the line item & the quantity for returns.
+ * 
+ */
+server.get('Return', server.middleware.https,
+    userLoggedIn.validateLoggedIn,
+    consentTracking.consent, function (req, resp, next) {
+        var OrderMgr = require('dw/order/OrderMgr');
+        var orderNumber = req.querystring.orderNumber;
+        var orderSummaryID = req.querystring.orderSummaryID;
+        var orderObj = OrderMgr.getOrder(orderNumber);
+        var quantity;
+        var productCode;
+        if (orderObj) {
+            var lineItems = orderObj.getProductLineItems();
+            var itr = lineItems.iterator();
+            while (itr.hasNext()) {
+                var lineItem = itr.next();
+                productCode = lineItem.productID;
+                quantity = lineItem.quantityValue;
+            }
+        }
+
+        // TODO: place the 'cancelOrder' literal in site pref probably -- in a way that the feature can be controlled by a toggle -- if enabled then this literal will be picked form config..
+        var requestObject = {
+            'omsOperation': 'returnOrder',
+            'quantity': quantity,
+            'productCode': productCode,
+            'orderSummaryID': orderSummaryID,
+            'commerceOrderNumber': orderNumber
+        };
+        //calling the hook to cancel the order in OMS
+        var returnResponse = require('dw/system/HookMgr').callHook('app.order.cancelOMSOrder', 'cancelOMSOrder', requestObject);
         
         // TODO: for now, i am redirecting to Account landing, but you need to handle it explicitly based on the requirements..
         var URLUtils = require('dw/web/URLUtils');

@@ -12,8 +12,14 @@
         </div>
         <div class="card-header clearfix">
             <isif condition="${pdict.omsOrders[order.orderNumber]}">
-                OMS Order Status: ${JSON.stringify(pdict.omsOrders[order.orderNumber].omsOrderSummaryStatus)}
-                <a href="${URLUtils.url('Order-Cancel', 'orderNumber', order.orderNumber, 'orderSummaryID', pdict.omsOrders[order.orderNumber].omsOrderSummaryID)}" class="pull-right">Cancel Order</a>
+                OMS Order Status: ${pdict.omsOrders[order.orderNumber].omsFulfllmentOrderStatus}
+                <isif condition="${pdict.omsOrders[order.orderNumber].omsFulfllmentOrderStatus === 'Cancelled'}">
+                    <a href="${URLUtils.url('Order-Cancel', 'orderNumber', order.orderNumber, 'orderSummaryID', pdict.omsOrders[order.orderNumber].omsOrderSummaryID)}" class="pull-right">Cancel Order</a>
+                </isif>
+                <isif condition="${pdict.omsOrders[order.orderNumber].omsFulfllmentOrderStatus === 'Fulfilled'}">
+                    <a href="${URLUtils.url('Order-Return', 'orderNumber', order.orderNumber, 'orderSummaryID', pdict.omsOrders[order.orderNumber].omsOrderSummaryID)}" class="pull-right">Return Order</a>
+                </isif>
+
             </isif>
         </div>
         
